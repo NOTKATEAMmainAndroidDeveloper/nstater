@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'ncontroller.dart';
+import 'package:nstater/ncontroller.dart';
 
 class NState<T> extends StatelessWidget {
   final T Function() create;
@@ -9,16 +8,19 @@ class NState<T> extends StatelessWidget {
 
   NController get controller => _controller;
 
-  NState({super.key, required this.create, required this.builder}) : _controller = create() as NController;
+  NState({super.key, required this.create, required this.builder})
+      : _controller = create() as NController;
 
   @override
   Widget build(BuildContext context) => builder(_controller as T);
 
   @override
-  StatelessElement createElement() => _NStateElement(this);
+  StatelessElement createElement() => _NStateElement<T>(this);
 }
 
 class _NStateElement<T> extends StatelessElement {
+  bool _isFirstBuild = true;
+
   _NStateElement(NState super.widget);
 
   NState get _widget => widget as NState;
@@ -26,7 +28,23 @@ class _NStateElement<T> extends StatelessElement {
   @override
   void mount(Element? parent, Object? newSlot) {
     super.mount(parent, newSlot);
+    _widget.controller.onInit();
+
     _widget.controller.addListener(_listener);
+  }
+
+  @override
+  Widget build() {
+    final builtWidget = super.build();
+
+    if (_isFirstBuild) {
+      _isFirstBuild = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _widget.controller.onReady();
+      });
+    }
+
+    return builtWidget;
   }
 
   @override

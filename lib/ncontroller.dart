@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 abstract class NController<T> {
   final List<Function()> _listeners = [];
 
@@ -5,13 +7,18 @@ abstract class NController<T> {
 
   void removeListener(Function() listener) => _listeners.remove(listener);
 
-  void unmount() {}
-
   void update() {
     for (var listener in _listeners) {
       listener();
     }
   }
 
-  NController();
+  @mustCallSuper
+  void onInit() {}
+
+  @mustCallSuper
+  void onReady() {}
+
+  @mustCallSuper
+  void unmount() {}
 }
