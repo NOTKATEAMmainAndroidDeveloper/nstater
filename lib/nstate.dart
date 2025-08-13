@@ -27,6 +27,7 @@ class _NStateElement<T> extends StatelessElement {
 
   @override
   void mount(Element? parent, Object? newSlot) {
+    _widget.controller.beforeMount();
     super.mount(parent, newSlot);
     _widget.controller.onInit();
 

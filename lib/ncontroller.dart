@@ -21,4 +21,7 @@ abstract class NController<T> {
 
   @mustCallSuper
   void unmount() {}
+
+  @mustCallSuper
+  void beforeMount() {}
 }
