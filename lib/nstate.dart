@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:nstater/ncontroller.dart';
 
@@ -20,9 +22,7 @@ class NState<T> extends StatelessWidget {
 
 class _NStateElement<T> extends StatelessElement {
   bool _isFirstBuild = true;
-
   _NStateElement(NState super.widget);
-
   NState get _widget => widget as NState;
 
   @override
@@ -30,21 +30,17 @@ class _NStateElement<T> extends StatelessElement {
     _widget.controller.beforeMount();
     super.mount(parent, newSlot);
     _widget.controller.onInit();
-
     _widget.controller.addListener(_listener);
+
+    scheduleMicrotask(() {
+      if (mounted) _widget.controller.onReady();
+    });
   }
 
   @override
   Widget build() {
     final builtWidget = super.build();
-
-    if (_isFirstBuild) {
-      _isFirstBuild = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _widget.controller.onReady();
-      });
-    }
-
+    if (_isFirstBuild) _isFirstBuild = false;
     return builtWidget;
   }
 
@@ -52,7 +48,6 @@ class _NStateElement<T> extends StatelessElement {
   void update(StatelessWidget newWidget) {
     final oldWidget = _widget;
     super.update(newWidget);
-
     if (oldWidget.controller != _widget.controller) {
       oldWidget.controller.removeListener(_listener);
       _widget.controller.addListener(_listener);
@@ -66,5 +61,8 @@ class _NStateElement<T> extends StatelessElement {
     super.unmount();
   }
 
-  void _listener() => markNeedsBuild();
+  void _listener() {
+    if (mounted) markNeedsBuild();
+  }
 }
+

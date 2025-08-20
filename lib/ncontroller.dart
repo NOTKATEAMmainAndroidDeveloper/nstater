@@ -1,16 +1,27 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class NController<T> {
-  final List<Function()> _listeners = [];
+  final List<void Function()> _listeners = [];
 
-  void addListener(Function() listener) => _listeners.contains(listener) ? null : _listeners.add(listener);
+  void addListener(void Function() listener) {
+    if (!_listeners.contains(listener)) _listeners.add(listener);
+  }
 
-  void removeListener(Function() listener) => _listeners.remove(listener);
+  void removeListener(void Function() listener) => _listeners.remove(listener);
 
+  @protected
   void update() {
-    for (var listener in _listeners) {
-      listener();
+    final snapshot = List<void Function()>.from(_listeners);
+    for (final l in snapshot) {
+      try {
+        l();
+      } catch (_) {}
     }
+  }
+
+  void setAndUpdate(void Function() mutate) {
+    mutate();
+    update();
   }
 
   @mustCallSuper
