@@ -2,7 +2,7 @@
 
 **NStater** is a minimal and fast way to manage state in Flutter without extending ChangeNotifier or ValueNotifier. You control the lifecycle of controllers and reactive values yourself, using your own types and subscriptions.
 
-## 📦 Возможности
+## 📦 Features
 
 - **NVar** — a typed reactive variable that notifies listeners about changes
 - **NField** — a widget that listens to an `NVar` and rebuilds only when the value actually changes
