@@ -1,7 +1,7 @@
 name: nstater
 description: "Super simple state manager"
 version: 0.0.1
-homepage:
+homepage: https://github.com/NOTKATEAMmainAndroidDeveloper/nstater
 
 environment:
   sdk: ^3.7.2

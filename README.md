@@ -1,44 +1,45 @@
-# NStater — лёгкий state‑management без зависимостей
+# NStater — lightweight state management with zero dependencies
 
-**NStater** — это минималистичный и быстрый способ работы с состоянием во Flutter, без наследования от `ChangeNotifier` или `ValueNotifier`.  
-Вы сами управляете жизненным циклом контроллеров и реактивных значений, используя свои типы и подписки.
+**NStater** is a minimal and fast way to manage state in Flutter without extending ChangeNotifier or ValueNotifier. You control the lifecycle of controllers and reactive values yourself, using your own types and subscriptions.
 
 ## 📦 Возможности
 
-- **NVar** — реактивная переменная с типом, уведомляющая слушателей об изменениях
-- **NField** — виджет, слушающий `NVar` и перестраивающийся только при реальном изменении значения
-- **NController** — базовый класс контроллера состояния без встроенной зависимости от Flutter
-- **NState** — виджет, создающий и управляющий жизненным циклом контроллера
-- Нет зависимости от `ChangeNotifier`/`ValueNotifier`
-- Типобезопасность и ручной контроль за временем создания/уничтожения объектов
-- Вы можете комбинировать несколько `NVar` или `NController` в одном экране
+- **NVar** — a typed reactive variable that notifies listeners about changes
+- **NField** — a widget that listens to an `NVar` and rebuilds only when the value actually changes
+- **NController** — a base state controller class
+- **NState** —  widget that creates a controller and manages its lifecycle
+- No dependency on `ChangeNotifier`/`ValueNotifier`
+- You can combine multiple `NVar` щк `NController` instances on a single screen
 
 ---
 
-## 🔍 Краткое API
+## 🔍 Quick API
 
 ### `NVar<T>`
-Реактивное значение с подпиской/отпиской:
+Reactive value with subscribe / unsubscribe:
 
 ```dart
 final n = NVar<int>(0);
-n.addListener((v) => print('новое значение: $v'));
+n.addListener((v) => print('new value: $v'));
+// new value: 0
 n.value = 42;
+print(n.value);
+// 42
 ```
 
 ### `NField<T>`
-Виджет, слушающий `NVar` и перестраивающийся только при реальном изменении значения:
+A widget that listens to an `NVar` and rebuilds only when the value actually changes:
 
 ```dart
 NField<int>(
-data: counter,
-builder: (v) => Text('$v'),
+  data: counter,
+  builder: (v) => Text('$v'),
 );
 ```
 
 
 ### `NController`
-Базовый класс контроллера с подпиской без зависимостей:
+Base controller class with subscriptions and no dependencies:
 
 ```dart
 class MyController extends NController {
@@ -52,7 +53,7 @@ class MyController extends NController {
 
 
 ### `NState<C extends NController>`
-Отрисовывает UI на основе контроллера, создаёт и уничтожает его автоматически:
+Builds UI based on a controller and automatically creates and disposes it:
 
 ```dart
 NState<MyController>(
