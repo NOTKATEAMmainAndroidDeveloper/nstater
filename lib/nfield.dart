@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'nvar.dart';
 
+/// [NField] is a widget that listens to an [NVar] and rebuilds only when the value actually changes
 class NField<T> extends StatelessWidget {
+  /// [data] is the [NVar] to listen to
   final NVar<T> data;
+
+  /// [builder] is the widget builder
   final Widget Function(T data) builder;
 
-  const NField({super.key, required this.data, required this.builder});
+  /// [NField] is a widget that listens to an [NVar] and rebuilds only when the value actually changes
+  const NField({required this.data, required this.builder, super.key});
 
   @override
   Widget build(BuildContext context) => builder(data.value);

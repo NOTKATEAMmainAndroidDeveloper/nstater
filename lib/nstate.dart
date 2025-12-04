@@ -1,14 +1,17 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'ncontroller.dart';
 
+/// NState — widget that creates a controller and manages its lifecycle
 class NState<T> extends StatelessWidget {
+  /// Method for creating a controller
   final T Function() create;
+
+  /// Widget builder that pass a [controller]
   final Widget Function(T controller) builder;
 
-  const NState({super.key, required this.create, required this.builder});
+  /// NState — widget that creates a controller and manages its lifecycle
+  const NState({required this.create, required this.builder, super.key});
 
   @override
   Widget build(BuildContext context) => const SizedBox.shrink();
@@ -39,11 +42,6 @@ class _NStateElement<T> extends StatelessElement {
   @override
   Widget build() {
     return _widget.builder(_controller as T);
-  }
-
-  @override
-  void update(StatelessWidget newWidget) {
-    super.update(newWidget);
   }
 
   @override

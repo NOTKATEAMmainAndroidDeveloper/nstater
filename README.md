@@ -1,6 +1,6 @@
 # NStater — lightweight state management with zero dependencies
 
-**NStater** is a minimal and fast way to manage state in Flutter without extending ChangeNotifier or ValueNotifier. You control the lifecycle of controllers and reactive values yourself, using your own types and subscriptions.
+**NStater** is a minimal and fast way to manage state in Flutter. You control the lifecycle of controllers and reactive values yourself, using your own types and subscriptions.
 
 ## 📦 Features
 
