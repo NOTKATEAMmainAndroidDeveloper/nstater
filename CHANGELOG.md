@@ -1,3 +1,7 @@
+## 0.0.4
+- format fix
+- readme add badges
+
 ## 0.0.3
 - add example
 

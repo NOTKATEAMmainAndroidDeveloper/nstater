@@ -1,6 +1,6 @@
 name: nstater
 description: "NStater is a minimal and fast way to manage state in Flutter. You control the lifecycle of controllers and reactive values yourself, using your own types and subscriptions."
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/NOTKATEAMmainAndroidDeveloper/nstater
 
 environment:

@@ -28,20 +28,37 @@ class MyHomePage extends StatelessWidget {
                   const Text('You have pushed the button this many times:'),
                   NField(
                     data: ctl.counter,
-                    builder: (data) => Text('$data', style: Theme.of(context).textTheme.headlineMedium),
+                    builder:
+                        (data) => Text(
+                          '$data',
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
                   ),
                   SizedBox(height: 16),
-                  const Text('You have pushed the button this many times after update:'),
-                  Text('${ctl.counter.value}', style: Theme.of(context).textTheme.headlineMedium),
+                  const Text(
+                    'You have pushed the button this many times after update:',
+                  ),
+                  Text(
+                    '${ctl.counter.value}',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                 ],
               ),
             ),
             floatingActionButton: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FloatingActionButton(onPressed: ctl.increment, tooltip: 'Increment', child: const Icon(Icons.add)),
+                FloatingActionButton(
+                  onPressed: ctl.increment,
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
                 SizedBox(width: 16),
-                FloatingActionButton(onPressed: ctl.updateCtl, tooltip: 'Update', child: const Icon(Icons.update)),
+                FloatingActionButton(
+                  onPressed: ctl.updateCtl,
+                  tooltip: 'Update',
+                  child: const Icon(Icons.update),
+                ),
               ],
             ),
           ),
