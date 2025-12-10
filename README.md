@@ -1,3 +1,7 @@
+[![pub package](https://img.shields.io/pub/v/nstater.svg)](https://pub.dev/packages/nstater)
+[![pub points](https://img.shields.io/pub/points/nstater)](https://pub.dev/packages/nstater)
+[![likes](https://img.shields.io/pub/likes/nstater)](https://pub.dev/packages/nstater)
+
 # NStater — lightweight state management with zero dependencies
 
 **NStater** is a minimal and fast way to manage state in Flutter. You control the lifecycle of controllers and reactive values yourself, using your own types and subscriptions.
