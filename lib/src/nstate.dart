@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import 'ncontroller.dart';
 
 /// NState — widget that creates a controller and manages its lifecycle
@@ -40,20 +42,17 @@ class _NStateElement<T> extends StatelessElement {
   }
 
   @override
-  Widget build() {
-    return _widget.builder(_controller as T);
-  }
+  Widget build() => _widget.builder(_controller as T);
 
   @override
   void unmount() {
     _controller.removeListener(_listener);
-    _controller.unmount();
+    _controller.dispose();
     super.unmount();
   }
 
+  /// listener for controller that update widget when update was call from controller
   void _listener() {
-    if (mounted) {
-      markNeedsBuild();
-    }
+    if (mounted) markNeedsBuild();
   }
 }
