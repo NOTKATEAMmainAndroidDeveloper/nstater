@@ -16,7 +16,7 @@ abstract class NController<T> {
   /// Update all listeners
   @protected
   void update() {
-    if (_disposed){
+    if (_disposed) {
       _disposedWarning('Can\'t update disposed controller');
       return;
     }
@@ -33,7 +33,7 @@ abstract class NController<T> {
 
   /// First start [mutate] and then update listeners
   void setAndUpdate(void Function() mutate) {
-    if (_disposed){
+    if (_disposed) {
       _disposedWarning('Can\'t update disposed controller');
       return;
     }
@@ -53,7 +53,7 @@ abstract class NController<T> {
   /// Call on widget dispose
   @mustCallSuper
   void dispose() {
-    if (_disposed){
+    if (_disposed) {
       _disposedWarning('NController already disposed');
       return;
     }
