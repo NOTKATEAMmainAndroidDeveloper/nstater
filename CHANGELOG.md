@@ -1,3 +1,10 @@
+## 0.0.5
+- Add `isEqual` parameter to NVar for custom equality comparison
+- Add `shouldRebuild` parameter to NField for selective rebuilds
+- Add `dispose()` method to NVar and NController
+- Improve error handling with try-catch and debug logging
+- Add disposed state protection in NController
+
 ## 0.0.4
 - format fix
 - readme add badges

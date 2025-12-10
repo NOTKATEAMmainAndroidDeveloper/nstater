@@ -12,8 +12,15 @@
 - **NField** — a widget that listens to an `NVar` and rebuilds only when the value actually changes
 - **NController** — a base state controller class
 - **NState** —  widget that creates a controller and manages its lifecycle
+
+---
+
+## 📦📦 Another Features
+
+- **Custom equality** — control when values are considered equal to optimize rebuilds
+- **Selective rebuilds** — rebuild only when specific parts of state change
 - No dependency on `ChangeNotifier`/`ValueNotifier`
-- You can combine multiple `NVar` щк `NController` instances on a single screen
+- You can combine multiple `NVar` or `NController` instances on a single screen
 
 ---
 
@@ -31,6 +38,17 @@ print(n.value);
 // 42
 ```
 
+**Custom equality:**
+
+```dart
+// Use custom comparison for complex objects
+final items = NVar<List<String>>(
+  ['a', 'b'],
+  isEqual: (old, new) => ListEquality().equals(old, new),
+);
+items.value = ['a', 'b']; // Won't notify listeners (content is equal)
+```
+
 ### `NField<T>`
 A widget that listens to an `NVar` and rebuilds only when the value actually changes:
 
@@ -41,16 +59,61 @@ NField<int>(
 );
 ```
 
+**Selective rebuilds:**
+
+```dart
+class User {
+  final String name;
+  final int age;
+  User(this.name, this.age);
+}
+
+final userVar = NVar<User>(User('John', 30));
+
+// Rebuild ONLY when name changes, ignore age updates
+NField<User>(
+  data: userVar,
+  shouldRebuild: (prev, curr) => prev.name != curr.name,
+  builder: (user) => Text(user.name),
+);
+```
 
 ### `NController`
 Base controller class with subscriptions and no dependencies:
 
 ```dart
-class MyController extends NController {
+class CounterController extends NController<CounterController> {
   int count = 0;
-  void inc() {
+
+  void increment() {
     count++;
-    notify();
+    update(); // Notify all listeners
+  }
+
+  @override
+  void onInit() {
+    // Called when widget is created
+    print('Controller initialized');
+  }
+
+  @override
+  void onReady() {
+    // Called after first build
+    print('Controller ready');
+  }
+
+  @override
+  void dispose() {
+    // Clean up resources
+    print('Controller disposed');
+    super.dispose();
+  }
+  
+  @override
+  void beforeMount() {
+    // Call before widget mount, its called before [onInit]
+    print('Controller disposed');
+    super.beforeMount();
   }
 }
 ```
@@ -60,8 +123,48 @@ class MyController extends NController {
 Builds UI based on a controller and automatically creates and disposes it:
 
 ```dart
-NState<MyController>(
-  create: () => MyController(),
-  builder: (c) => Text('${c.count}'),
+NState<CounterController>(
+  create: () => CounterController(),
+  builder: (controller) => Column(
+    children: [
+      Text('Count: ${controller.count}'),
+      ElevatedButton(
+        onPressed: controller.increment,
+        child: Text('Increment'),
+      ),
+    ],
+  ),
 );
 ```
+
+---
+
+## ⚡ Performance Tips
+
+1. **Use `shouldRebuild` in `NField`** to prevent unnecessary rebuilds when only specific parts of data change
+2. **Use `isEqual` in `NVar`** for deep equality checks on complex objects (lists, maps)
+3. **Dispose resources** — always call `super.dispose()` in controllers and `dispose()` on `NVar` instances
+4. **Combine multiple `NVar`** — use separate reactive variables for independent state instead of one large object
+
+---
+
+## 📚 Lifecycle Methods
+
+### NController
+- `beforeMount()` — called before widget mount
+- `onInit()` — called when widget is created (analog of `initState`)
+- `onReady()` — called after first build is complete
+- `dispose()` — called when widget is removed from tree
+
+---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE) file for details.
+
+---
+
+## 🤝 Contributing
+
+Issues and pull requests are welcome!
+Visit [GitHub repository](https://github.com/NOTKATEAMmainAndroidDeveloper/nstater).
