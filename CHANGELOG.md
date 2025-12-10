@@ -1,3 +1,6 @@
+## 0.0.3
+- add example
+
 ## 0.0.2
 - code style fixes
 
