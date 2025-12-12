@@ -112,7 +112,7 @@ class CounterController extends NController<CounterController> {
   @override
   void beforeMount() {
     // Call before widget mount, its called before [onInit]
-    print('Controller disposed');
+    print('Controller before mount');
     super.beforeMount();
   }
 }
@@ -137,6 +137,49 @@ NState<CounterController>(
 );
 ```
 
+### `NVarCombiner<R>`
+Combine multiple `NVar` sources into a single computed value that automatically updates when any source changes:
+
+```dart
+final firstName = NVar<String>('John');
+final lastName = NVar<String>('Doe');
+
+// Combine two sources
+final fullName = NVarCombiner(
+  [firstName, lastName],
+      () => '${firstName.value} ${lastName.value}',
+);
+
+print(fullName.value); // John Doe
+
+firstName.value = 'Jane';
+print(fullName.value); // Jane Doe
+```
+
+**Form validation example:**
+
+```dart
+final email = NVar<String>('');
+final password = NVar<String>('');
+final acceptTerms = NVar<bool>(false);
+
+final isFormValid = NVarCombiner(
+  [email, password, acceptTerms], () => 
+        email.value.contains('@') && 
+        password.value.length >= 6 
+        && acceptTerms.value,
+);
+
+// Use in UI
+NField<bool>(
+  data: isFormValid,
+  builder: (isValid) => ElevatedButton(
+    onPressed: isValid ? _submit : null,
+    child: Text('Submit'),
+  ),
+);
+```
+
 ---
 
 ## ⚡ Performance Tips
@@ -155,6 +198,9 @@ NState<CounterController>(
 - `onInit()` — called when widget is created (analog of `initState`)
 - `onReady()` — called after first build is complete
 - `dispose()` — called when widget is removed from tree
+
+### NVar / NVarCombiner
+- `dispose()` — unsubscribe from all listeners and clean up resources
 
 ---
 
