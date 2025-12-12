@@ -1,3 +1,8 @@
+## 0.0.6
+- Add `NVarCombiner` class for combining multiple NVar sources into computed values
+- Add tests
+- Update documentation with NVarCombiner examples and use cases
+
 ## 0.0.5
 - Add `isEqual` parameter to NVar for custom equality comparison
 - Add `shouldRebuild` parameter to NField for selective rebuilds
